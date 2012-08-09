@@ -6,7 +6,8 @@
 }
 
 \usage{
-enumerateBVS(data,forced=NULL,cov=NULL,a1=0,rare=FALSE,hap=FALSE,inform=FALSE)
+enumerateBVS(data,forced=NULL,cov=NULL,a1=0,rare=FALSE,mult.regions=FALSE,
+             regions=NULL,hap=FALSE,inform=FALSE)
 }
 
 \arguments{
@@ -30,6 +31,12 @@ enumerateBVS(data,forced=NULL,cov=NULL,a1=0,rare=FALSE,hap=FALSE,inform=FALSE)
   \item{rare}{
     if rare=TRUE corresponds to the Bayesian Risk index (BRI) algorithm of Quintana and Conti (2011) that constructs a risk index based on the multiple rare variants within each model.  The marginal likelihood of each model is then calculated based on the corresponding risk index.}
 
+  \item{mult.regions}{
+    when rare=TRUE if mult.regions=TRUE then we include multiple region specific risk indices in each model.  If mult.regions=FALSE a single risk index is computed for all variants in the model.}
+
+  \item{regions}{
+    if mult.regions=TRUE regions is a \emph{p} dimensional character or factor vector identifying the user defined region of each variant.}
+
   \item{hap}{
     if hap=TRUE we estimate a set of haplotypes from the multiple variants within each model and the marginal likelihood of each model is calculated based on the set of estimated haplotypes.}}
 
@@ -41,17 +48,16 @@ enumerateBVS(data,forced=NULL,cov=NULL,a1=0,rare=FALSE,hap=FALSE,inform=FALSE)
     A vector of the fitness values (log(Model likelihood) - log(Model Prior)) of each 
     enumerated model. }
  
-  \item{PrM}{
-    A vector of the Model Priors of each enumerated model.}
+  \item{logPrM}{
+    A vector of the log Model Priors of each enumerated model.}
   
   \item{which}{
-    Matrix where each row corresponds to a model specification vector for
-    each enumerated model.}
+    A vector identifying the character representation of each model indicator vector.}
 
   \item{coef}{
     If rare=FALSE we report a matrix where each row corresponds to the estimated coefficients
     for all variables within each enumerated model.  If rare=TRUE we 
-    report a vector where each entry corresponds to the estimated coefficient of the risk index 
+    report a vector where each entry corresponds to the estimated coefficient of the risk index (or multiple risk indices if mult.regions = TRUE) 
     corresponding to each enumerated model.}
 
   \item{alpha}{
@@ -67,7 +73,7 @@ enumerateBVS(data,forced=NULL,cov=NULL,a1=0,rare=FALSE,hap=FALSE,inform=FALSE)
   Quintana M, Conti D (2011). \emph{Incorporating Model Uncertainty in Detecting Rare Variants: 
   The Bayesian Risk Index}. Genetic Epidemiology 35:638-649.
 
-  Quintana M, Conti D (Submitted). \emph{Informing Variable Selection via Bayesian Model 
+  Quintana M, Conti D (Submitted). \emph{Integrative Variable Selection via Bayesian Model 
   Uncertainty}.
 }
 

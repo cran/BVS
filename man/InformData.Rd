@@ -18,7 +18,7 @@
 }
 
 \references{ 
-  Quintana M, Conti D (Submitted). \emph{Informing Variable Selection via Bayesian Model 
+  Quintana M, Conti D (Submitted). \emph{Integrative Variable Selection via Bayesian Model 
   Uncertainty}.
 }
 

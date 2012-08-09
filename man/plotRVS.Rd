@@ -1,35 +1,42 @@
 \name{plotBVS}
 \alias{plotBVS}
 
-\title{ Image Plots for top Variant and Gene Inclusions }
+\title{ Image Plots for top Variant and Region Inclusions }
 \description{
   This function allows the user to create image plots of the top variants
-  and top Genes included in the top models.  Variants and Genes are ordered based on marginal
-  BF which are plotted on the right axis.  The
+  and top Regions (any user specified set of variants such as pathways or genes) included in the top models.  Variants and Regions are ordered based on marginal
+  BF and regional BF which are plotted on the right axis.  The
   width of the inclusion blocks are proportional to the posterior model
-  probability that the variant or Gene is included in.
+  probability that the variant or region is included in.
 }
 
 \usage{
-plotBVS(results, num.models=100, num.snps=20, plot.coef=FALSE, true.coef=NULL,
-        main=NULL, genes=NULL, type="s",...)
+plotBVS(results, num.models=100, num.snps=20, num.regions=20, plot.coef=FALSE, 
+        true.coef=NULL,main=NULL, regions=NULL, type="s",prop.cases=NULL,...)
 }
 
 \arguments{
   \item{results}{output list from \code{\link{summaryBVS}}.}
   \item{num.models}{the number of the top models to place on the x-axis.}
-  \item{num.snps}{ If inc.type="s", the number of the top variants to place
+  \item{num.snps}{ If type="s", the number of the top variants to place
     on the y-axis.}
-  \item{plot.coef}{ Only to be used for rare variant analysis when rare=TRUE.  When plot.coef=TRUE, the log(OR) of the risk indices 
+  \item{num.regions}{ If type="r", the number of the top regions to place
+    on the y-axis.}
+  \item{plot.coef}{ Only to be used for rare variant analysis when rare=TRUE and mult.regions = FALSE.  When plot.coef=TRUE, the log(OR) of the risk indices 
     specified by each of the top models are plotted on the x axis}
   \item{type}{specifies if we want to plot the variant inclusion ("s") or
-    gene inclusion ("g") }
+    region inclusion ("r") }
   \item{true.coef}{optional vector giving the true odds ratios of each of the variants (if results are from a simulation)}
   \item{main}{optional vector giving the title of the plot}
-  \item{genes}{
+  \item{regions}{
     an optional vector of character strings giving the names of the
-    genes for each of the variants in data set needed when plotting type is "g"
-    or can be added to include the gene names of each variant on the y axis.}
+    regions for each of the variants in data set needed when plotting type is "r"
+    or can be added to include the region names of each variant on the y axis when
+    plotting type is "s".}
+   \item{prop.cases}{
+    an optional \emph{(p x 2)} dimensional matrix giving the number of cases that have the variant in column 1 and 
+    the number of controls with the variant in column 2.  If specified, these counts will be reported on the right 
+    axis under each variants marginal BF}
   \item{...}{General parameters for plotting functions}
 }
 
@@ -65,8 +72,8 @@ plotBVS(results, num.models=100, num.snps=20, plot.coef=FALSE, true.coef=NULL,
   data(Informresults.NI)
 
   ## Make SNP and Gene inclusion plots
-  plotBVS(Informresults.NI,num.models=50,num.snps=10,genes=InformData$genes)
-  plotBVS(Informresults.NI,num.models=50,num.snps=10,genes=InformData$genes,type="g")
+  plotBVS(Informresults.NI,num.models=50,num.snps=10,regions=InformData$genes)
+  plotBVS(Informresults.NI,num.models=50,num.regions=10,regions=InformData$genes,type="r")
 
   ## Load the results from running sampleBVS with inform=TRUE for 100K iterations
   data(InformBVS.I.out)
@@ -75,8 +82,8 @@ plotBVS(results, num.models=100, num.snps=20, plot.coef=FALSE, true.coef=NULL,
   data(Informresults.I)
 
   ## Make SNP and Gene inclusion plots
-  plotBVS(Informresults.I,num.models=50,num.snps=10,genes=InformData$genes)
-  plotBVS(Informresults.I,num.models=50,num.snps=10,genes=InformData$genes,type="g")}
+  plotBVS(Informresults.I,num.models=50,num.snps=10,regions=InformData$genes)
+  plotBVS(Informresults.I,num.models=50,num.regions=10,regions=InformData$genes,type="r")}
 
 
 }

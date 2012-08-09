@@ -23,7 +23,7 @@ License: \tab GPL-2\cr
    Quintana M, Conti D (2011). \emph{Incorporating Model Uncertainty in Detecting Rare Variants: 
   The Bayesian Risk Index}. Genetic Epidemiology 35:638-649.
 
-  Quintana M, Conti D (Submitted). \emph{Informing Variable Selection via Bayesian Model 
+  Quintana M, Conti D (Submitted). \emph{Integrative Variable Selection via Bayesian Model 
   Uncertainty}.
 }
 

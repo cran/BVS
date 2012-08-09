@@ -15,9 +15,9 @@ Description: The functions in this package focus on analyzing
         haplotypes.  Finally, the package also allows the incorporation
         of external biological information to inform the marginal
         inclusion probabilities via the iBMU.
-Version: 4.12.0
+Version: 4.12.1
 License: Unlimited
 Depends: MASS, msm, haplo.stats, R (>= 2.14.0)
-Packaged: 2012-05-09 16:00:55 UTC; maw27
+Packaged: 2012-08-09 16:25:49 UTC; maw27
 Repository: CRAN
-Date/Publication: 2012-05-10 04:14:52
+Date/Publication: 2012-08-09 17:07:48

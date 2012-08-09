@@ -9,8 +9,8 @@
 }
 
 \usage{
-summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
-           rare=FALSE,inform=FALSE)
+summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,regions=NULL,
+           rare=FALSE,mult.regions=FALSE,inform=FALSE)
 }
 
 \arguments{
@@ -27,9 +27,9 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
   \item{burnin}{
     an integer indicating the length of the burnin.}
 
-  \item{genes}{
+  \item{regions}{
     an optional \emph{p} dimensional vector of character strings giving the names of the
-    genes for each of the variants in data set.}
+    regions (example can be gene names or pathway names) for each of the variants in data set.  If a region vector is given, the function will report regional BF.}
   
   \item{inform}{
     if inform=TRUE corresponds to iBMU algorithm of Quintana and Conti (Submitted) that incorporates user specified external predictor-level covariates into the variant selection algorithm.}
@@ -39,6 +39,9 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
 
   \item{rare}{
     if rare=TRUE corresponds to the Bayesian Risk index (BRI) algorithm of Quintana and Conti (2011) that constructs a risk index based on the multiple rare variants within each model.  The marginal likelihood of each model is then calculated based on the corresponding risk index.}
+
+  \item{mult.regions}{
+    when rare=TRUE if mult.regions=TRUE then we include multiple region specific risk indices in each model.  If mult.regions=FALSE a single risk index is computed for all variants in the model.}
   
 }
 
@@ -46,10 +49,9 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
   Global and marginal Bayes factors (BF) are computed based on calculating the
   posterior probabilities of each of the unique models that were visited
   in \code{\link{sampleBVS}} or all models that were enumerated in \code{\link{enumerateBVS}}.  The global BF tests 
-  the hypothesis that there is an association in the overall set of variants.  The
-  marginal BF are calculated at the gene (if genes are specified) and the variant level.  At the
-  gene level, BF are computed for
-  the overall evidence of at least one of the variants within the gene of
+  the hypothesis that there is an association in the overall set of variants. BF's are also calculated at the regional (if regions are specified) and the variant level.  At the
+  regional level, BF are computed for
+  the overall evidence of at least one of the variants within the region of
   interest being associated.  Posterior estimates for the coefficients are also reported.  Finally, if inform=TRUE
   posterior estimates of the effects of the posterior-level covariates on the marginal inclusion probabilities are reported. 
 }
@@ -63,7 +65,7 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
   \item{MargBF}{Marginal variant specific Bayes Factors giving the strength of evidence that each one of the variants are associated
     with the outcome of interest}
 
-  \item{Marg.GBF}{Gene level Bayes Factors giving the strength of evidence that at least one variant within the gene is associated
+  \item{Marg.RBF}{Regional level Bayes Factors giving the strength of evidence that at least one variant within the region is associated
     with the outcome of interest}
 
   \item{PostAlpha}{If inform=TRUE gives that posterior estimates of the effects of the posterior-level covariates on the marginal
@@ -73,7 +75,7 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
 
   \item{Which}{Matrix of the unique models as well as their prior probability and posterior probability}
 
-  \item{Which.g}{Matrix indicating which genes are included in each of the unique models given in Which}
+  \item{Which.r}{Matrix indicating which regions are included in each of the unique models given in Which}
 
   \item{Coef}{Matrix indicating the coefficients of the variants (or risk index) included in each unique model}
 }
@@ -83,7 +85,7 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
   Quintana M, Conti D (2011). \emph{Incorporating Model Uncertainty in Detecting Rare Variants: 
   The Bayesian Risk Index}. Genetic Epidemiology 35:638-649.
 
-  Quintana M, Conti D (Submitted). \emph{Informing Variable Selection via Bayesian Model 
+  Quintana M, Conti D (Submitted). \emph{Integrative Variable Selection via Bayesian Model 
   Uncertainty}.
 }
 
@@ -99,7 +101,6 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
 
   ## Summarize output with a burn in of 1000 iterations
   ## Results from summary found in data(RareResults)
-  \donttest{
   RareResults = summaryBVS(RareBVS.out,data=RareData,burnin=1000,rare=TRUE)
 
 ## INFORMATIVE iBMU EXAMPLE
@@ -113,7 +114,7 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
   ## Results from summary found in data(Informresults.NI)
   
   Informresults.NI = summaryBVS(InformBVS.NI.out,data=InformData$data,burnin=1000,
-                                genes=InformData$genes,inform=FALSE)
+                                regions=InformData$genes,inform=FALSE)
 
   ## Load the results from running sampleBVS with inform=TRUE for 100K iterations
   data(InformBVS.I.out)
@@ -123,7 +124,7 @@ summaryBVS(BVS.out,data=data,forced=NULL,cov=NULL,burnin=1000,genes=NULL,
  
   Informresults.I = summaryBVS(InformBVS.I.out,data=InformData$data,
                                cov=as.matrix(InformData$cov),burnin=1000,
-                               genes=InformData$genes,inform=TRUE)}
+                               regions=InformData$genes,inform=TRUE)
 
 }
 

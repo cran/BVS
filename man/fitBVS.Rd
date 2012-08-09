@@ -6,8 +6,8 @@
 }
 
 \usage{
-fitBVS(Z,data,forced=NULL,cov=NULL,a1=NULL,rare=FALSE,hap=FALSE,inform=FALSE,
-                  which=NULL,models.char=NULL)
+fitBVS(Z,data,forced=NULL,cov=NULL,a1=NULL,rare=FALSE,mult.regions=FALSE,
+       regions=NULL,hap=FALSE,inform=FALSE,which=NULL,which.char=NULL)
 }
 
 \arguments{
@@ -33,13 +33,19 @@ fitBVS(Z,data,forced=NULL,cov=NULL,a1=NULL,rare=FALSE,hap=FALSE,inform=FALSE,
   \item{rare}{
     if rare=TRUE corresponds to the Bayesian Risk index (BRI) algorithm of Quintana and Conti (2011) that constructs a risk index based on the multiple rare variants within each model.  The marginal likelihood of each model is then calculated based on the corresponding risk index.}
 
+   \item{mult.regions}{
+    when rare=TRUE if mult.regions=TRUE then we include multiple region specific risk indices in each model.  If mult.regions=FALSE a single risk index is computed for all variants in the model.}
+
+   \item{regions}{
+    if mult.regions=TRUE regions is a \emph{p} dimensional character or factor vector identifying the user defined region of each variant.}
+
   \item{hap}{
     if hap=TRUE we estimate a set of haplotypes from the multiple variants within each model and the marginal likelihood of each model is calculated based on the set of estimated haplotypes.}
   
   \item{which}{
     optional current which matrix of sampled models from sampleBVS that is used to see if a model has already been sampled so that that fitness does not have to be recalculated. }
 
-  \item{models.char}{
+  \item{which.char}{
     optional vector that identifies that current models that have been sampled from sampleBVS that is also used to determine if a model has already been sampled.}
   
 }
@@ -55,15 +61,15 @@ from the subset of variants within the model of interest.}
   \item{coef}{
     If rare=FALSE we report a vector where each value corresponds to the estimated coefficients
     for all variables within the model of interest. If rare=TRUE we 
-    report a single value corresponding to the estimated coefficient of the risk index 
+    report a value corresponding to the estimated coefficient of the risk index (or risk indices if multi.regions=TRUE) 
     corresponding to each model of interest.}  
  
   \item{fitness}{
     The value of the fitness function (log(Model likelihood) - log(Model Prior)) of the 
     model of interest.} 
  
-  \item{PrM}{
-    The value of the prior on the model of interest.}
+  \item{logPrM}{
+    The value of the log prior on the model of interest.}
 }
 
 
@@ -71,7 +77,7 @@ from the subset of variants within the model of interest.}
   Quintana M, Conti D (2011). \emph{Incorporating Model Uncertainty in Detecting Rare Variants: 
   The Bayesian Risk Index}. Genetic Epidemiology 35:638-649.
 
-  Quintana M, Conti D (Submitted). \emph{Informing Variable Selection via Bayesian Model 
+  Quintana M, Conti D (Submitted). \emph{Integrative Variable Selection via Bayesian Model 
   Uncertainty}.
 }
 

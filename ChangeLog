@@ -1,0 +1,20 @@
+2012-08-09  Melanie Quintana  <maw27.wilson@gmail.com>
+
+	*  (SUMMARY): For rare variant analyses, we incorporate the ability to 
+        allow multiple region-specific risk indices within each model.  
+	
+	*  fitBVS.R, enumerateBVS.R and sampleBVS.R: Introduce variables 
+        mult.regions and regions to indicate if the user wants to incorporate
+        multiple region-specific risk indices into each model (mult.regions=TRUE)
+        or just a single risk index in each model (mult.regions=FALSE).  If 
+        mult.regions=TRUE the regions are specified as a p dimensional
+        character or factor vector indicating the region of each variant. Some 
+        examples of defined regions could be pathways or genes.   
+	
+	*  sampleBVS.R:  Introduced variant old.output can can be specified by
+        the user as an old output from sampleBVS that has results from a subset
+        of the total number intended iterations.  In which case the sampleBVS 
+        function begins from the last sampled model in old.output.  Is to be 
+        used if a run of sampleBVS is interrupted for some reason.  
+	
+

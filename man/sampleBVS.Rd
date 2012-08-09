@@ -6,8 +6,9 @@
 }
 
 \usage{
-sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,hap=FALSE,
-          iter=10000,save.iter=0,outfile=NULL,status.file=NULL)
+sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,mult.regions=FALSE,
+          regions=NULL,hap=FALSE,iter=10000,save.iter=0,outfile=NULL,
+          status.file=NULL,old.results=NULL)
 }
 
 \arguments{
@@ -28,6 +29,12 @@ sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,hap=FALSE,
   \item{rare}{
     if rare=TRUE corresponds to the Bayesian Risk index (BRI) algorithm of Quintana and Conti (2011) that constructs a risk index based on the multiple rare variants within each model.  The marginal likelihood of each model is then calculated based on the corresponding risk index.}
 
+  \item{mult.regions}{
+    when rare=TRUE if mult.regions=TRUE then we include multiple region specific risk indices in each model.  If mult.regions=FALSE a single risk index is computed for all variants in the model.}
+
+  \item{regions}{
+    if mult.regions=TRUE regions is a \emph{p} dimensional character or factor vector identifying the user defined region of each variant.}
+
   \item{hap}{
     if hap=TRUE we estimate a set of haplotypes from the multiple variants within each model and the marginal likelihood of each model is calculated based on the set of estimated haplotypes.}
   
@@ -45,6 +52,9 @@ sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,hap=FALSE,
   \item{status.file}{
     character string giving the pathname of the file to write the status of
     the algorithm.}
+
+  \item{old.results}{
+    old output from sampleBVS that has been run for a subset of the total number of iterations that the user wanted to run.  if specified the sampling algorithm will start from the last sampled model in old.results.  To be used if sampleBVS has been interrupted for some reason.   }
   
 }
 
@@ -63,19 +73,18 @@ sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,hap=FALSE,
     A vector of the fitness values (log(Model likelihood) - log(Model Prior)) of each 
     model sampled at each iteration of the algorithm. }
  
-  \item{PrM}{
+  \item{logPrM}{
     A vector of the Model Priors of each model sampled at each iteration 
     of the algorithm.}
   
   \item{which}{
-    Matrix where each row corresponds to a model specification vector for
-    each model sampled at each iteration of the algorithm.}
+    A vector identifying the character representation of each model sampled.}
 
   \item{coef}{
     If rare=FALSE we report a matrix where each row corresponds to the estimated coefficients
     for all variables within each model sampled at each iteration of the algorithm.  If rare=TRUE we 
-    report a vector where each entry corresponds to the estimated coefficient of the risk index 
-    corresponding to each model sampled at each iteration of the algorithm.}
+    report a vector where each entry corresponds to the estimated coefficient of the risk index (or multiple risk indices if mult.regions=TRUE) 
+    corresponding to each enumerated model.}
 
   \item{alpha}{
     If inform=FALSE that is simply a vector of 0's.  If inform=TRUE we report a matrix where each row
@@ -105,6 +114,12 @@ sampleBVS(data,forced=NULL,inform=FALSE,cov=NULL,rare=FALSE,hap=FALSE,
   ## NOTE: Results from a more realistic run with 100K
   ## iterations can be found in data(RareBVS.out).
   RareBVS.out <- sampleBVS(data=RareData,iter=100,rare=TRUE)
+
+  ## Run algorithm for 100 iterations for multiple region rare 
+  ## variant example.
+  p = dim(RareData)[2]-1
+  regions = c(rep("Region1",(p/2)),rep("Region2",(p/2)))
+  RareBVS.out <- sampleBVS(data=RareData,iter=100,rare=TRUE,mult.regions=TRUE,regions=regions)
 
 ## Informative iBMU Example
   ##Load the data for the informative example
